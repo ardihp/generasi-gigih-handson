@@ -1,9 +1,9 @@
 import React from "react";
 
-function index() {
+function index({handleClick}) {
   return (
-    <form className="search">
-      <input type="text" />
+    <form className="search" onSubmit={handleClick}>
+      <input type="text" name="query" />
       <input type="submit" value="search" />
     </form>
   );
