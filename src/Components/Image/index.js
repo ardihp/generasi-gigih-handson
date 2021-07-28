@@ -1,14 +1,15 @@
 import React from "react";
 
-function index(props) {
+function index({img, title}) {
   return (
     <div className="gambar">
       <img
-        src={props.img}
-        alt={props.title}
-        title={props.title}
+        src={img}
+        alt={title}
+        title={title}
+        style={{display: 'flex'}}
       />
-      <p>{props.title}</p>
+      <p>{title}</p>
     </div>
   );
 }

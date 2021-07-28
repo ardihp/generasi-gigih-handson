@@ -1,36 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Search from "../Components/Search/";
 import Image from "../Components/Image/";
 // import Data from "../Constants/Data";
 // import Data from "../Constants/Giphy";
+import { useSelector, useDispatch } from "react-redux";
+import { storeImage } from "../Redux/Slice";
 
 function Gallery() {
-  const [image, setImage] = useState([]);
+  const images = useSelector(state => state.images.images);
+  useEffect(() => {
+    return () => {
+      dispatch(storeImage([]));
+    };
+  }, []);
+  const dispatch = useDispatch();
 
   const handleClick = e => {
     e.preventDefault();
     const query = e.target.query.value;
-    getImageData(query);
+    getImageData(query).then(res => dispatch(storeImage(res.data)));
   };
 
-  const getImageData = query => {
+  const getImageData = async query => {
     const API_KEY = "1WDJ2vyc6qkeJKsdtp3a11xXs74xj2k3";
-    fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${query}&limit=12`)
-      .then((data) => data.json())
-      .then(res => setImage(res.data));
+    const data = await fetch(
+      `https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${query}&limit=12`
+    ).then(data => data.json());
+    return data;
   };
 
   return (
     <div>
       <Search handleClick={handleClick} />
-      {image.map(
-        gif =>
-          gif.rating === "g" && (
-            <Image key={gif.id} img={gif.images.fixed_width.url} title={gif.title} />
-          )
-      )}
+      {images.length > 0 &&
+        images.map(
+          image =>
+            image.rating === "g" && (
+              <Image
+                key={image.id}
+                img={image.images.fixed_width.url}
+                title={image.title}
+              />
+            )
+        )}
     </div>
   );
 }
-
 export default Gallery;
