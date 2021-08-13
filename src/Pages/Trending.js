@@ -3,6 +3,7 @@ import Image from "../Components/Image/";
 import { useSelector, useDispatch } from "react-redux";
 import { storeImage } from "../Redux/Slice";
 import { Link } from "react-router-dom";
+import {Button} from "@material-ui/core";
 
 function Trending() {
   const images = useSelector(state => state.images.images);
@@ -22,9 +23,11 @@ function Trending() {
 
   return (
     <div>
+      <Button variant="contained" color="primary">
         <Link to="/">
             Ke home
         </Link>
+      </Button>
       {images.length > 0 &&
         images.map(image => (
           <Image

@@ -8,12 +8,13 @@ import { storeImage } from "../Redux/Slice";
 
 function Gallery() {
   const images = useSelector(state => state.images.images);
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     return () => {
       dispatch(storeImage([]));
     };
-  }, []);
-  const dispatch = useDispatch();
+  }, [dispatch]);
 
   const handleClick = e => {
     e.preventDefault();
@@ -37,6 +38,7 @@ function Gallery() {
           image =>
             image.rating === "g" && (
               <Image
+              data-testid="imageSearch"
                 key={image.id}
                 img={image.images.fixed_width.url}
                 title={image.title}
